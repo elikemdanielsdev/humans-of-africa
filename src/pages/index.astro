@@ -2,7 +2,8 @@
 import Layout from "@/layouts/MainLayout.astro";
 import { HeadingText, BodyText, Section, Container } from "@/components/static";
 
-const title = "Introduction";
+const title =
+  "Humans of Africa — true African stories told by Africans, highlighting their struggles to success in life";
 const description = "A minimal Astro starter for building websites.";
 const keywords = ["astro", "astro starter", "astro template"];
 const ogTitle = title;
@@ -16,9 +17,11 @@ const ogDescription = description;
   ogTitle={ogTitle}
   ogDescription={ogDescription}
 >
-  <Section>
+  <Section class="text-gray-50">
     <Container>
-      <HeadingText tag="h1">{title}</HeadingText>
+      <HeadingText tag="h1" class="max-w-screen-1200 text-[72px]"
+        >{title}</HeadingText
+      >
       <BodyText>{description}</BodyText>
     </Container>
   </Section>
