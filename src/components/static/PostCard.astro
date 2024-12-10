@@ -1,0 +1,44 @@
+---
+import HeadingText from "@/components/static/HeadingText.astro";
+import Image from "astro/components/Image.astro";
+
+type Props = {
+  title: string;
+  spotlight?: boolean;
+  country?: string;
+  date: string;
+  image: ImageMetadata;
+};
+
+const { title, date, image, spotlight, country } = Astro.props;
+---
+
+<article class="post-card flex flex-col gap-4">
+  <HeadingText tag="h3">{title}</HeadingText>
+  <time datetime={date} class="-order-1">• {date}</time>
+  <Image
+    src={image}
+    alt="Face of a man"
+    width={800}
+    height={600}
+    class="image-aspect -order-2 w-full object-cover"
+  />
+</article>
+
+<style>
+  .post-card:first-child .image-aspect {
+    @apply aspect-[3.32/3.6];
+  }
+
+  .post-card:nth-child(2) .image-aspect {
+    @apply aspect-[3.32/4.6];
+  }
+
+  .post-card:nth-child(3) .image-aspect {
+    @apply aspect-[3.32/4];
+  }
+
+  .post-card:nth-child(4) .image-aspect {
+    @apply aspect-[3.32/3];
+  }
+</style>

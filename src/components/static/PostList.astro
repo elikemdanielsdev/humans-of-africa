@@ -1,0 +1,21 @@
+---
+import clsx from "clsx";
+
+type Props = {
+  class?: string;
+  mdCols?: number;
+  lgCols?: number;
+};
+
+const { mdCols, lgCols, class: className } = Astro.props as Props;
+---
+
+<div
+  class={clsx(
+    "grid gap-6",
+    `md:grid-cols-${mdCols} lg:grid-cols-${lgCols}`,
+    className,
+  )}
+>
+  <slot />
+</div>

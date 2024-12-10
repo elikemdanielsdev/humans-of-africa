@@ -1,6 +1,18 @@
 ---
 import Layout from "@/layouts/MainLayout.astro";
-import { HeadingText, BodyText, Section, Container } from "@/components/static";
+import {
+  HeadingText,
+  BodyText,
+  Section,
+  Container,
+  PostCard,
+  PostList,
+  BackgroundPattern,
+} from "@/components/static";
+import { Image } from "astro:assets";
+import image1 from "@/assets/images/face-1.jpg";
+import image2 from "@/assets/images/face-2.jpg";
+import image3 from "@/assets/images/face-3.jpg";
 
 const title =
   "Humans of Africa — true African stories told by Africans, highlighting their struggles to success in life";
@@ -8,6 +20,47 @@ const description = "A minimal Astro starter for building websites.";
 const keywords = ["astro", "astro starter", "astro template"];
 const ogTitle = title;
 const ogDescription = description;
+
+const posts = [
+  {
+    title:
+      "Building a healthier and more aesthetically pleasing environment for the people",
+    date: "2024-01-01",
+    spotlight: true,
+    country: "Nigeria",
+    image: image1,
+  },
+  {
+    title: "Empowering women through education and entrepreneurship",
+    date: "2024-02-15",
+    spotlight: false,
+    country: "Nigeria",
+    image: image2,
+  },
+  {
+    title: "Overcoming adversity: A story of resilience and determination",
+    date: "2024-03-10",
+    spotlight: false,
+    country: "Nigeria",
+    image: image3,
+  },
+  {
+    title: "Overcoming adversity: A story of resilience and determination",
+    date: "2024-03-10",
+    spotlight: false,
+    country: "Nigeria",
+    image: image2,
+  },
+];
+
+const countryCounts = posts.reduce(
+  (counts, post) => {
+    const { country } = post;
+    counts[country] = counts[country] ? counts[country] + 1 : 1;
+    return counts;
+  },
+  {} as Record<string, number>,
+);
 ---
 
 <Layout
@@ -17,12 +70,162 @@ const ogDescription = description;
   ogTitle={ogTitle}
   ogDescription={ogDescription}
 >
+  <!-- Hero -->
   <Section class="text-gray-50">
+    <Container class="flex flex-col gap-16">
+      <HeadingText tag="h1" class="max-w-screen-1200">{title}</HeadingText>
+      <div class="flex items-center gap-4">
+        <div class="flex">
+          <Image
+            src={image1}
+            alt="Face of a man"
+            width={300}
+            height={300}
+            class="-mr-3 h-12 w-12 rounded-full border-2 border-gray-50 object-cover"
+          />
+          <Image
+            src={image2}
+            alt="Face of a man"
+            width={300}
+            height={300}
+            class="-mr-3 h-12 w-12 rounded-full border-2 border-gray-50 object-cover"
+          />
+          <Image
+            src={image3}
+            alt="Face of a man"
+            width={300}
+            height={300}
+            class="h-12 w-12 rounded-full border-2 border-gray-50 object-cover"
+          />
+        </div>
+        <BodyText
+          >Made possible by <span class="block font-bold"
+            >20+ African writers</span
+          ></BodyText
+        >
+      </div>
+    </Container>
+  </Section>
+  <!-- Background Pattern -->
+  <BackgroundPattern />
+  <!-- Featured Stories -->
+  <Section class="bg-gray-100">
     <Container>
-      <HeadingText tag="h1" class="max-w-screen-1200 text-[72px]"
-        >{title}</HeadingText
-      >
-      <BodyText>{description}</BodyText>
+      <HeadingText tag="h2">Featured Stories</HeadingText>
+      <PostList mdCols={2} lgCols={4} class="mt-12">
+        {
+          posts.map((post) => (
+            <PostCard title={post.title} date={post.date} image={post.image} />
+          ))
+        }
+      </PostList>
+    </Container>
+  </Section>
+  <!-- Spotlight -->
+  <Section class="bg-white">
+    <Container>
+      <HeadingText tag="h2">Spotlight</HeadingText>
+      <div class="mt-12 grid grid-cols-2">
+        <Image
+          src={image1}
+          alt="Face of a man"
+          width={1000}
+          height={1000}
+          class="aspect-square w-full object-cover"
+        />
+        <div class="pattern w-full bg-lime-400 p-8">
+          {
+            posts
+              .filter((post) => post.spotlight)
+              .map((post) => (
+                <article class="flex h-full w-full flex-col items-center justify-center gap-4 bg-slate-950 p-16 text-center text-gray-50">
+                  <h3 class="text-[38px] font-bold">{post.title}</h3>
+                  <BodyText>{post.date}</BodyText>
+                </article>
+              ))
+          }
+        </div>
+      </div>
+    </Container>
+  </Section>
+  <!-- Nigeria -->
+  <Section class="bg-gray-100">
+    <Container>
+      <HeadingText tag="h2">
+        Nigeria <span class="text-gray-400">
+          {countryCounts["Nigeria"] || 0}
+          {countryCounts["Nigeria"] === 1 ? "Story" : "Stories"}
+        </span>
+      </HeadingText>
+      <PostList mdCols={2} lgCols={4} class="mt-12">
+        {
+          posts
+            .filter((post) => post.country === "Nigeria")
+            .map((post) => (
+              <PostCard
+                title={post.title}
+                date={post.date}
+                image={post.image}
+              />
+            ))
+        }
+      </PostList>
+    </Container>
+  </Section>
+  <!-- Nigeria -->
+  <Section class="bg-gray-100">
+    <Container>
+      <HeadingText tag="h2">
+        Nigeria <span class="text-gray-400">
+          {countryCounts["Nigeria"] || 0}
+          {countryCounts["Nigeria"] === 1 ? "Story" : "Stories"}
+        </span>
+      </HeadingText>
+      <PostList mdCols={2} lgCols={4} class="mt-12">
+        {
+          posts
+            .filter((post) => post.country === "Nigeria")
+            .map((post) => (
+              <PostCard
+                title={post.title}
+                date={post.date}
+                image={post.image}
+              />
+            ))
+        }
+      </PostList>
+    </Container>
+  </Section>
+  <!-- Nigeria -->
+  <Section class="bg-gray-100">
+    <Container>
+      <HeadingText tag="h2">
+        Nigeria <span class="text-gray-400">
+          {countryCounts["Nigeria"] || 0}
+          {countryCounts["Nigeria"] === 1 ? "Story" : "Stories"}
+        </span>
+      </HeadingText>
+      <PostList mdCols={2} lgCols={4} class="mt-12">
+        {
+          posts
+            .filter((post) => post.country === "Nigeria")
+            .map((post) => (
+              <PostCard
+                title={post.title}
+                date={post.date}
+                image={post.image}
+              />
+            ))
+        }
+      </PostList>
     </Container>
   </Section>
 </Layout>
+
+<style>
+  .pattern {
+    background-image: url("src/assets/images/pattern.svg");
+    background-size: 500px;
+    background-repeat: repeat;
+  }
+</style>
