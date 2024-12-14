@@ -13,6 +13,22 @@ import { Image } from "astro:assets";
 import image1 from "@/assets/images/face-1.jpg";
 import image2 from "@/assets/images/face-2.jpg";
 import image3 from "@/assets/images/face-3.jpg";
+import { directus } from "@/utilities/directus";
+import { readItems } from "@directus/sdk";
+
+const articles = await directus.request(
+  readItems("articles", {
+    fields: [
+      "title",
+      "slug",
+      "date_published",
+      "featured",
+      "spotlight",
+      "image",
+      "content",
+    ],
+  }),
+);
 
 const title =
   "Humans of Africa — true African stories told by Africans, highlighting their struggles to success in life";
@@ -21,46 +37,14 @@ const keywords = ["astro", "astro starter", "astro template"];
 const ogTitle = title;
 const ogDescription = description;
 
-const posts = [
-  {
-    title:
-      "Building a healthier and more aesthetically pleasing environment for the people",
-    date: "2024-01-01",
-    spotlight: true,
-    country: "Nigeria",
-    image: image1,
-  },
-  {
-    title: "Empowering women through education and entrepreneurship",
-    date: "2024-02-15",
-    spotlight: false,
-    country: "Nigeria",
-    image: image2,
-  },
-  {
-    title: "Overcoming adversity: A story of resilience and determination",
-    date: "2024-03-10",
-    spotlight: false,
-    country: "Nigeria",
-    image: image3,
-  },
-  {
-    title: "Overcoming adversity: A story of resilience and determination",
-    date: "2024-03-10",
-    spotlight: false,
-    country: "Nigeria",
-    image: image2,
-  },
-];
-
-const countryCounts = posts.reduce(
-  (counts, post) => {
-    const { country } = post;
-    counts[country] = counts[country] ? counts[country] + 1 : 1;
-    return counts;
-  },
-  {} as Record<string, number>,
-);
+// const countryCounts = posts.reduce(
+//   (counts, post) => {
+//     const { country } = post;
+//     counts[country] = counts[country] ? counts[country] + 1 : 1;
+//     return counts;
+//   },
+//   {} as Record<string, number>,
+// );
 ---
 
 <Layout
@@ -106,7 +90,7 @@ const countryCounts = posts.reduce(
       </div>
     </Container>
   </Section>
-  <!-- Background Pattern -->
+  Background Pattern
   <BackgroundPattern />
   <!-- Featured Stories -->
   <Section class="bg-gray-100">
@@ -114,15 +98,19 @@ const countryCounts = posts.reduce(
       <HeadingText tag="h2">Featured Stories</HeadingText>
       <PostList class="mt-12">
         {
-          posts.map((post) => (
-            <PostCard title={post.title} date={post.date} image={post.image} />
+          articles.map((article) => (
+            <PostCard
+              title={article.title}
+              date={article.date_published}
+              image={article.image}
+            />
           ))
         }
       </PostList>
     </Container>
   </Section>
   <!-- Spotlight -->
-  <Section class="bg-white">
+  <!-- <Section class="bg-white">
     <Container>
       <HeadingText tag="h2">Spotlight</HeadingText>
       <div class="mt-12 grid grid-cols-2">
@@ -147,9 +135,9 @@ const countryCounts = posts.reduce(
         </div>
       </div>
     </Container>
-  </Section>
+  </Section> -->
   <!-- Nigeria -->
-  <Section class="bg-gray-100">
+  <!-- <Section class="bg-gray-100">
     <Container>
       <HeadingText tag="h2">
         Nigeria <span class="text-gray-400">
@@ -171,9 +159,9 @@ const countryCounts = posts.reduce(
         }
       </PostList>
     </Container>
-  </Section>
+  </Section> -->
   <!-- Nigeria -->
-  <Section class="bg-gray-100">
+  <!-- <Section class="bg-gray-100">
     <Container>
       <HeadingText tag="h2">
         Nigeria <span class="text-gray-400">
@@ -195,9 +183,9 @@ const countryCounts = posts.reduce(
         }
       </PostList>
     </Container>
-  </Section>
+  </Section> -->
   <!-- Nigeria -->
-  <Section class="bg-gray-100">
+  <!-- <Section class="bg-gray-100">
     <Container>
       <HeadingText tag="h2">
         Nigeria <span class="text-gray-400">
@@ -219,7 +207,7 @@ const countryCounts = posts.reduce(
         }
       </PostList>
     </Container>
-  </Section>
+  </Section> -->
 </Layout>
 
 <style>

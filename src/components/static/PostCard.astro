@@ -1,28 +1,35 @@
 ---
 import HeadingText from "@/components/static/HeadingText.astro";
 import Image from "astro/components/Image.astro";
+import formattedDate from "@/utilities/formattedDate";
+import { directusUrl } from "@/utilities/directus";
 
 type Props = {
   title: string;
   spotlight?: boolean;
   country?: string;
   date: string;
-  image: ImageMetadata;
+  image?: ImageMetadata;
 };
 
 const { title, date, image, spotlight, country } = Astro.props;
+const imageUrl = `${directusUrl}/assets/${image}`;
 ---
 
 <article class="post-card flex flex-col gap-4">
   <HeadingText tag="h3">{title}</HeadingText>
-  <time datetime={date} class="-order-1">• {date}</time>
-  <Image
-    src={image}
-    alt="Face of a man"
-    width={800}
-    height={600}
-    class="image-aspect -order-2 w-full object-cover"
-  />
+  <time datetime={date} class="-order-1">• {formattedDate(date)}</time>
+  {
+    image && (
+      <Image
+        src={imageUrl}
+        alt="Face of a man"
+        width={800}
+        height={600}
+        class="image-aspect -order-2 w-full object-cover"
+      />
+    )
+  }
 </article>
 
 <style>
