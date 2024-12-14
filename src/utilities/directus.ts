@@ -9,9 +9,7 @@ type Article = {
   featured: boolean;
   spotlight: boolean;
   image: ImageMetadata;
-  block_content: {
-    content: any[];
-  };
+  content: any[];
 };
 
 type Schema = {
