@@ -1,0 +1,40 @@
+---
+import Layout from "@/layouts/MainLayout.astro";
+import {
+  HeadingText,
+  BodyText,
+  Section,
+  Container,
+  PostCard,
+  PostList,
+  BackgroundPattern,
+} from "@/components/static";
+import { directus } from "@/utilities/directus";
+import { readItems } from "@directus/sdk";
+import { renderContent } from "@/utilities/contentRenderer";
+import { any } from "astro:schema";
+
+export async function getStaticPaths() {
+  const articles = await directus.request(readItems("articles"));
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: article,
+  }));
+}
+
+const article = Astro.props;
+const content = renderContent(article.block_content.content);
+---
+
+<Layout>
+  <Section class="bg-white">
+    <Container>
+      <HeadingText tag="h1">{article.title}</HeadingText>
+
+      <div
+        class="prose prose-lg mt-10 bg-gray-100 p-10 prose-blockquote:border-lime-400 prose-blockquote:text-2xl prose-blockquote:leading-normal"
+        set:html={content ? content : "<p>No content available now</p>"}
+      />
+    </Container>
+  </Section>
+</Layout>

@@ -7,12 +7,13 @@ import { directusUrl } from "@/utilities/directus";
 type Props = {
   title: string;
   spotlight?: boolean;
+  featured?: boolean;
   country?: string;
   date: string;
   image?: ImageMetadata;
 };
 
-const { title, date, image, spotlight, country } = Astro.props;
+const { title, date, image, spotlight, featured, country } = Astro.props;
 const imageUrl = `${directusUrl}/assets/${image}`;
 ---
 

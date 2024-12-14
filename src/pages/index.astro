@@ -25,7 +25,6 @@ const articles = await directus.request(
       "featured",
       "spotlight",
       "image",
-      "content",
     ],
   }),
 );
@@ -98,13 +97,15 @@ const ogDescription = description;
       <HeadingText tag="h2">Featured Stories</HeadingText>
       <PostList class="mt-12">
         {
-          articles.map((article) => (
-            <PostCard
-              title={article.title}
-              date={article.date_published}
-              image={article.image}
-            />
-          ))
+          articles
+            .filter((article) => article.featured)
+            .map((article) => (
+              <PostCard
+                title={article.title}
+                date={article.date_published}
+                image={article.image}
+              />
+            ))
         }
       </PostList>
     </Container>
